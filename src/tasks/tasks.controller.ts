@@ -1,17 +1,24 @@
-import { Body, Controller, Delete, Get, Param, Post, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Patch, Query } from '@nestjs/common';
 import { title } from 'process';
 import { CreateTaskDto } from './create-task.dto';
+import { GetTaskFilterDto } from './get-task-filter-dto';
 import { Task, TasksStatus } from './tasks.model';
 import { TasksService } from './tasks.service';
 
+
+// The first argument of the @Controller() decorator describes the path/route the controller handles.
 @Controller('tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   // Define get all tasks url endpoint
   @Get()
-  getAllTaks(): Task[] {
-    return this.tasksService.getAllTasks();
+  getTaks(@Query() filterDto: GetTaskFilterDto): Task[] {
+    if (Object.keys(filterDto).length) {
+      return this.tasksService.getTasksWithFilters(filterDto);
+    } else {
+      return this.tasksService.getAllTasks();
+    }
   }
 
   // http:localhost:3000/tasks/id
