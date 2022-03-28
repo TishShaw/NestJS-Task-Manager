@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Task, TasksStatus } from './tasks.model';
 import { v4 as uuid } from 'uuid';
-import { CreateTaskDto } from './create-task.dto';
-import { GetTaskFilterDto } from './get-task-filter-dto';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { Task, TasksStatus } from './tasks.model';
+import { GetTaskFilterDto } from '../dto/get-task-filter-dto';
 
 // The Injectable() decorator is used to define a certain class should have a shared instance across the module.
 @Injectable()

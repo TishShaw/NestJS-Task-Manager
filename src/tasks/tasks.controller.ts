@@ -1,10 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Post, Patch, Query } from '@nestjs/common';
-import { title } from 'process';
-import { CreateTaskDto } from './create-task.dto';
-import { GetTaskFilterDto } from './get-task-filter-dto';
-import { Task, TasksStatus } from './tasks.model';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Patch,
+  Query,
+} from '@nestjs/common';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { GetTaskFilterDto } from '../dto/get-task-filter-dto';
+import { Task } from './tasks.model';
 import { TasksService } from './tasks.service';
-
+import { updateTaskStatusDto } from './dto/update-task-status.dto';
 
 // The first argument of the @Controller() decorator describes the path/route the controller handles.
 @Controller('tasks')
@@ -40,8 +48,9 @@ export class TasksController {
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id') id: string,
-    @Body('status') status: TasksStatus,
-   ): Task {
+    @Body() updateTaskStatusDto: updateTaskStatusDto,
+  ): Task {
+    const { status } = updateTaskStatusDto;
     return this.tasksService.updateTaskStatus(id, status);
   }
 }
